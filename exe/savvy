@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "savvy"
+require "savvy/application"
+
+Savvy::Application.new.run

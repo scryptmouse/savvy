@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "savvy"
+require "pry"
+
+Pry.config.prompt_name = 'savvy'
+
+Pry.start
