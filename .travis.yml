@@ -3,7 +3,13 @@ dist: trusty
 cache: bundler
 language: ruby
 rvm:
-  - 2.2
-  - 2.3
-  - 2.4.0
+- 2.2
+- 2.3
+- 2.4.0
 before_install: gem install bundler -v 1.14.6
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+  slack:
+    secure: d4aMjEF4rS1UGUilgyxObX/t1ZGJfrunNbZiDTssB2GjRvg1g6Z9sO3YrslK4BHlW+PcijDvH7eIhGheOgKA21LaPSnxlp/rqzPeIEh0yEZMmto2rPwecQicIjq0vu1C/EV/HPv8twzX65YpBYQHf9xZnX9y54J7QRrYpKIogJoEFsErwqOGvjQA4cWCfQQH3TdDrg+NdayMaWFiINdMNGqyIE1pxM80m2bT+nlE6o+YxOBd1lZZgh+3+Mm7r8PLjq3q7U8U3Avw+dS45PoEXQbnoKpdaXR5SUWRFyx+uH5itygiYb6F6rpPG9xuM7iUzz7PIJsRRkPO7tVXCPvlmGgWEiTFDEGc9Tsw9Kp739iGplWKtOBQzbrvf9mJfV/gViJdOpfpCOG5JCJWqTK8iSHe/m1LA36NOFll7tzd1NR6QBPLN4nb2y3bYjFdDlEh5N91ftIJAhkJEvg0+uMRZb4gd2ez4KxwzfGXSyYjS3HswBXmeCHuLFsEWyHaq5KjSdA3DfREUdU7B8PwP0sbEvTnzCKMnrUem4RJMwhNg8A+TtbXqLJsrxfjbKA0TkPNKpHqos74BJ+kh+ZvfnR7gD3yuG/WCXAIYzx4ET7OY97etpaqK3qVDrz/Bd1K/SEh4TtCE+lMkk6tFMtse6kUgg+tBzpA4mKkl0yVUoEMQfE=
