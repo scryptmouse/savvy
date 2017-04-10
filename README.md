@@ -1,5 +1,7 @@
 # Savvy
 
+[![Build Status](https://travis-ci.org/scryptmouse/savvy.svg?branch=master)](https://travis-ci.org/scryptmouse/savvy)
+
 `ENV`-backed configuration helper for Redis, sidekiq, etc.
 
 Designed to manage configuration of services across Rails apps without
