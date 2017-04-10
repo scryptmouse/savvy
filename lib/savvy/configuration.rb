@@ -126,6 +126,8 @@ module Savvy
 
         return config_path if config_path.exist?
       end
+
+      return nil
     end
 
     # @return [void]
