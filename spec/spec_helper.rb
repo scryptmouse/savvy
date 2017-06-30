@@ -11,6 +11,8 @@ if RUBY_PLATFORM != 'java'
   end
 end
 
+TEST_ROOT = Bundler.root.join('spec/test_root')
+
 require "savvy"
 
 RSpec.configure do |config|

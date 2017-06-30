@@ -43,9 +43,15 @@ module Savvy
       load_from_file!
     end
 
+    # Build a namespace that takes environmental and application factors into account.
+    #
+    # @param [<String>] parts additional parts that will be suffixed after the generated namespace
+    # @param [String] prefix a component that will appear before the savvy-generated namepsace
+    # @param [String] separator what separates the components used in the namespace
     # @return [String]
-    def build_namespace(*parts, separator: ?.)
+    def build_namespace(*parts, prefix: nil, separator: ?.)
       [
+        prefix,
         app_name,
         ( app_env if include_app_env? ),
         *parts

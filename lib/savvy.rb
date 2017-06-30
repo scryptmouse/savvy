@@ -9,6 +9,7 @@ require 'savvy/version'
 require 'savvy/configuration'
 require 'savvy/configuration_dsl'
 require 'savvy/environment_reader'
+require 'savvy/error'
 require 'savvy/root_finder'
 require 'savvy/utility'
 
