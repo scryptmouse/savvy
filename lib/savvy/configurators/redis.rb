@@ -136,7 +136,12 @@ module Savvy
         path_match = PATH_PATTERN.match @parsed_url.path
 
         if path_match
-          captures = path_match.named_captures
+          captures =
+            if path_match.respond_to?(:named_captures)
+              path_match.named_captures
+            else
+              Hash[path_match.names.zip(path_match.captures)]
+            end
 
           @db = Integer(captures['db'])
 
