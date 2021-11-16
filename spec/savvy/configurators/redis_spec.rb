@@ -32,7 +32,19 @@ RSpec.describe Savvy::Configurators::Redis do
   end
 
   it 'can generate a hash' do
-    expect(instance.to_h).to eq({ host: host, port: port, db: db, namespace: instance.namespace })
+    expect(instance.to_h).to eq({
+      host: host,
+      port: port,
+      password: nil,
+      db: db,
+      scheme: "redis",
+      ssl: false,
+      namespace: instance.namespace
+    })
+  end
+
+  specify do
+    expect(instance).not_to have_ssl
   end
 
   context 'with an invalid URL' do
@@ -52,7 +64,9 @@ RSpec.describe Savvy::Configurators::Redis do
     raises_error! :host
     raises_error! :namespace
     raises_error! :namespaced_url
+    raises_error! :password
     raises_error! :port
+    raises_error! :scheme
     raises_error! :url
   end
 
@@ -61,6 +75,30 @@ RSpec.describe Savvy::Configurators::Redis do
 
     it 'has the default database' do
       expect(instance.db).to eq 0
+    end
+  end
+
+  context "with a password-protected rediss:// url" do
+    let(:username) { "redis" }
+    let(:password) { "123456" }
+    let(:userinfo) { "#{username}:#{password}" }
+    let(:port) { "6380" }
+    let(:redis_env_url) { "rediss://#{userinfo}@#{host}:#{port}" }
+
+    specify do
+      expect(instance).to have_ssl
+    end
+
+    it "has the proper scheme" do
+      expect(instance.scheme).to eq "rediss"
+    end
+
+    it "builds a URL with the right scheme" do
+      expect(instance.url).to start_with "rediss://"
+    end
+
+    it "includes the userinfo in the URL" do
+      expect(instance.url).to include password
     end
   end
 end

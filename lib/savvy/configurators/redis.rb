@@ -32,6 +32,9 @@ module Savvy
           host: @host,
           port: @port,
           db:   @db,
+          scheme: @scheme,
+          password: @password,
+          ssl: uses_ssl?,
         }.tap do |h|
           ns = without_namespace ? @namespace_prefix : namespace(*parts)
 
@@ -72,12 +75,28 @@ module Savvy
         build_redis_url *parts
       end
 
+      # @!attribute [r] password
+      # @return [String, nil]
+      def password
+        check_validity!
+
+        @password
+      end
+
       # @!attribute [r] port
       # @return [Integer]
       def port
         check_validity!
 
         @port
+      end
+
+      # @!attribute [r] scheme
+      # @return ["rediss", "redis"]
+      def scheme
+        check_validity!
+
+        @scheme
       end
 
       # The url as configured by the environment (sans namespace)
@@ -88,6 +107,20 @@ module Savvy
 
         build_redis_url without_namespace: true
       end
+
+      # @!attribute [r] userinfo
+      # @return [String, nil]
+      def userinfo
+        check_validity!
+
+        @userinfo
+      end
+
+      def uses_ssl?
+        @scheme == "rediss"
+      end
+
+      alias has_ssl? uses_ssl?
 
       # @return [ConnectionPool]
       def build_connection_pool(*namespace_parts, size: 5, timeout: 5)
@@ -130,8 +163,11 @@ module Savvy
 
         @parsed_url = URI.parse @provided_url
 
+        @scheme = @parsed_url.scheme == "rediss" ? "rediss" : "redis"
         @host = @parsed_url.host
         @port = @parsed_url.port
+        @password = @parsed_url.password
+        @userinfo = @parsed_url.userinfo
 
         path_match = PATH_PATTERN.match @parsed_url.path
 
@@ -148,7 +184,7 @@ module Savvy
           @namespace_prefix = captures['namespace_prefix']
         end
 
-        @base_uri = URI::Generic.new 'redis', nil, @host, @port, nil, '', nil, nil, nil
+        @base_uri = URI::Generic.new @scheme, @userinfo, @host, @port, nil, '', nil, nil, nil
       rescue URI::InvalidURIError => e
         @error = "could not parse redis URL (#{@provided_url})"
       end
