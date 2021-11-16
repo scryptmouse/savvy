@@ -7,6 +7,7 @@ if RUBY_PLATFORM != 'java'
 
   SimpleCov.start do
     add_filter "test_object.rb"
+    add_filter "spec"
     add_filter "spec/support"
   end
 end
